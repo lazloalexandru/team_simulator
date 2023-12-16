@@ -1,0 +1,10 @@
+{ Project Requirements } -> ** PO ** -> Design Specification JSON
+
+{ Design Specification } -> ** Team Lead ** -> Detailed plan JSON
+
+{ Detailed Plan, Design Specification } -> ** Developer ** -> Implementation
+
+{ Existing Code, New Implementation } -> ** Integrator -> Merge args JSON
+
+
+
