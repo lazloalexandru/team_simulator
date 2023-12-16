@@ -11,4 +11,4 @@
 - If you have to modify an existing file please specify the sections by giving the line number of the affected parts. Fopr example:
 	- If a function or a section needs to be rewritten say that from line X -> line Y paste this code -> "... your generated code here"
 	- If we have jsut to insert new code then specify that insert from line X this code -> " ... your generated code here"
-Implement coding steps: <Number here>
+Implement steps 4,5 and 6 from the developer tasks in python. Generate python code only, do not give me the explanations! Give me plain source code in python!
