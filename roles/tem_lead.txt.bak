@@ -5,5 +5,5 @@
 	- "id" field containing number id for each step
 	- "category" field For each step. Asses which step is pure coding and which are dev environment setup (git, etc..), test, maintenance, documentation realted? Make sure to specify this categories for each step! Possible category values van be: "setup dev", "coding", "automatic testing", "maintenance", "documentation"
 	- add detailed description to each step
-- Do not generate explanation text, just generate output in JSON right away. 
+	
 - See attached design specification document.
