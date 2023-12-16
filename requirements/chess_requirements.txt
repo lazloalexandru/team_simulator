@@ -4,3 +4,4 @@ Chess project Requirements:
 - this is a game running on a single PC and playeable by typing in "A2B3" like commands to make moves, so no fancy inputs needed. both players enter moves on same keyboard.
 - game can use the special ASCII unicode characters to repsesent pieces. 
 - table chess game state, and table state should be stored in a very memory efficient way, so in the future if I simulate 1000000 chess boards it uses the lowest possible amount of memory. I prefer to encode a piece in 4 bits (12 types of pieces ...) so a whole table row of 8 fields is encoded into a 32 bit integer by using bit logic.
+- design game so it can run an users can play. MAke it a proper game.

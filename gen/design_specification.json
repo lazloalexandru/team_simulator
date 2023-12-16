@@ -2,46 +2,47 @@
   "ProjectDesignSpecification": {
     "overview": {
       "language": "Python",
-      "platform": "Windows/Linux/MacOS (Single PC)",
-      "representation": "Command Line Interface using ASCII Unicode characters for chess pieces",
-      "focus": "Memory-efficient representation of chess game state for large-scale simulations"
+      "platform": "Windows",
+      "representation": "Console-based interface with ASCII unicode characters for chess pieces",
+      "focus": "Memory efficiency and simplicity for two-player local gameplay"
     },
     "keyFeatures": {
-      "feature1": "Two-player gameplay on a single keyboard with 'A2B3'-style move commands",
-      "feature2": "Memory-efficient storage of game state, using 4 bits per chess piece"
+      "feature1": "Two-player gameplay on a single PC using keyboard input for moves (e.g., 'A2B3')",
+      "feature2": "Memory-efficient representation of chess board state using 32-bit integers for row encoding",
+      "feature3": "Use of special ASCII unicode characters to represent chess pieces"
     },
     "systemArchitecture": {
-      "chessBoard": {
-        "description": "Representation of the chess board in memory",
-        "implementation": "32-bit integers to represent each row, encoding 8 squares using 4 bits per chess piece"
+      "chessEngine": {
+        "description": "Core logic for chess rules and move validation",
+        "implementation": "Implement standard chess rules, move generation, and move validation logic"
       },
-      "gameLogic": {
-        "description": "Core logic for move validation, turn management, and game rules",
-        "implementation": "Python classes and functions to handle game mechanics and piece movements"
+      "boardRepresentation": {
+        "description": "Efficient memory representation of the chess board",
+        "implementation": "Use 32-bit integers to encode each row of the chess board, representing each piece with 4 bits"
       },
       "userInterface": {
         "description": "Interface for players to input moves and view the game state",
-        "implementation": "Command Line Interface for move input and ASCII Unicode character display for chess pieces"
+        "implementation": "Console-based UI using ASCII unicode characters for pieces, accepting 'A2B3' format for moves"
       }
     },
     "performanceConsiderations": {
-      "memoryUsage": "Efficient memory representation of chess boards for scalability in simulations",
-      "executionSpeed": "Optimized logic for quick response to user inputs and move validations"
+      "memoryUsage": "Optimized memory usage for board state representation to support large-scale simulations",
+      "inputProcessingSpeed": "Efficient processing of player inputs to ensure responsive gameplay"
     },
     "dependencies": [
-      "Python Standard Library"
+      "Python Standard Library",
+      "Unicode Character Database for chess piece symbols"
     ],
     "developmentPhases": {
-      "phase1": ["Design and implement chess board data structure"],
-      "phase2": ["Develop game logic and rules"],
-      "phase3": ["Create user interface for move input and game display"],
-      "phase4": ["Testing and optimization for memory usage and execution speed"]
+      "phase1": ["Design and implementation of the chess engine and move validation logic"],
+      "phase2": ["Development of the memory-efficient board representation"],
+      "phase3": ["Creation of the user interface and integration with the chess engine"]
     },
     "futureEnhancements": [
-      "Online multiplayer functionality",
       "AI opponent implementation",
-      "Graphical user interface enhancement"
+      "Online multiplayer functionality",
+      "Graphical user interface (GUI) option"
     ],
-    "conclusion": "A memory-efficient, command line based chess game in Python, designed for scalability in large-scale simulations and ease of use for two players on a single PC."
+    "conclusion": "This project focuses on creating a simple, memory-efficient, two-player chess game for Windows, utilizing Python and a console-based interface."
   }
 }
