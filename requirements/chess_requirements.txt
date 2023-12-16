@@ -1,4 +1,5 @@
 Chess project Requirements:
+- I want a windows application
 - write a design for a chess implementation in python. I want it to be playable by 2 users (human players). 
 - this is a game running on a single PC and playeable by typing in "A2B3" like commands to make moves, so no fancy inputs needed. both players enter moves on same keyboard.
 - game can use the special ASCII unicode characters to repsesent pieces. 
