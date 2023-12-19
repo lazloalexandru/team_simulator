@@ -8,6 +8,8 @@ Do not generate any explanatory texts, just start generating python code accordi
 - Response should be the updated source code only!!!
 - Do not generate intermediate responses!!!
 - Respond only at the end!!!
+- Take a look on the review findings file!
+- Fix the issues detailed in the review findings file by updating the sourcce code!!!
 - You can only do things that you are told by the Review Findings file!!!
 - You cannot start implementing things that are not mentioned in Review findings!
 - You have to fix review findings and implement functionalities in detail, while repecting the Design Specifications you received.

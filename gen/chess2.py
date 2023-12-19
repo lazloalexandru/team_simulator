@@ -1,11 +1,15 @@
+
+# Revised chess.py based on review findings and design specifications
+
+# Import necessary libraries
 from typing import List, Tuple
 
 # ASCII unicode characters for chess pieces
 CHESS_PIECES = {
-    'K': '\u2654', 'Q': '\u2655', 'R': '\u2656',
-    'B': '\u2657', 'N': '\u2658', 'P': '\u2659',
-    'k': '\u265A', 'q': '\u265B', 'r': '\u265C',
-    'b': '\u265D', 'n': '\u265E', 'p': '\u265F',
+    'K': '♔', 'Q': '♕', 'R': '♖',
+    'B': '♗', 'N': '♘', 'P': '♙',
+    'k': '♚', 'q': '♛', 'r': '♜',
+    'b': '♝', 'n': '♞', 'p': '♟',
     '.': ' '
 }
 
@@ -56,23 +60,35 @@ class ChessUI:
 
     def display_board(self):
         for row in range(8):
+            row_str = ""
             for col in range(8):
                 piece = self.engine.board.get_piece(row, col)
-                print(CHESS_PIECES[piece], end=' ')
-            print()
+                row_str += CHESS_PIECES[piece] + ' '
+            print(row_str)
 
-    def get_player_move(self) -> str:
-        # Get and validate player move
-        move = input("Enter your move (e.g., 'A2B3'): ")
-        while not self.engine.is_valid_move(move):
-            print("Invalid move. Try again.")
-            move = input("Enter your move (e.g., 'A2B3'): ")
-        return move
+    def get_player_move(self) -> Tuple[Tuple[int, int], Tuple[int, int]]:
+        move = input("Enter your move (e.g., 'A2B3'): ").strip().upper()
+        while not self.validate_input_format(move):
+            print("Invalid format. Try again.")
+            move = input("Enter your move (e.g., 'A2B3'): ").strip().upper()
+        return self.parse_move(move)
+
+    def validate_input_format(self, move: str) -> bool:
+        if len(move) == 4 and move[0].isalpha() and move[2].isalpha() and move[1].isdigit() and move[3].isdigit():
+            return True
+        return False
+
+    def parse_move(self, move: str) -> Tuple[Tuple[int, int], Tuple[int, int]]:
+        start_col = ord(move[0]) - ord('A')
+        start_row = 8 - int(move[1])
+        end_col = ord(move[2]) - ord('A')
+        end_row = 8 - int(move[3])
+        return ((start_row, start_col), (end_row, end_col))
 
     def play_game(self):
         while True:
             self.display_board()
-            move = self.get_player_move()
+            start, end = self.get_player_move()
             # Process the move
             # Check for game end conditions
 
