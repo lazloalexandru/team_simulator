@@ -1,26 +1,26 @@
 {
   "ReviewFindings": {
     "FileReviewed": "chess.py",
-    "DesignSpecification": "design_specification.json",
     "Findings": [
       {
-        "Section": "Chess Engine",
+        "Section": "systemArchitecture/chessEngine",
         "Specification": "Implement standard chess rules, move generation, and move validation logic",
         "Finding": "Partially implemented",
-        "Details": "Standard chess rules are implemented, but move generation and validation logic are incomplete."
+        "Details": "The ChessEngine class initializes the board but lacks implementation for move generation ('generate_legal_moves') and move validation ('is_valid_move')."
       },
       {
-        "Section": "Board Representation",
-        "Specification": "Use 32-bit integers to encode each row of the chess board, representing each piece with 4 bits",
-        "Finding": "Not implemented",
-        "Details": "Current implementation does not use 32-bit integers for board representation. The encoding for chess pieces is not in accordance with the specification."
-      },
-      {
-        "Section": "User Interface",
+        "Section": "systemArchitecture/userInterface",
         "Specification": "Console-based UI using ASCII unicode characters for pieces, accepting 'A2B3' format for moves",
-        "Finding": "Implemented with issues",
-        "Details": "The UI accepts moves in the specified format, but the representation of chess pieces does not use the required ASCII unicode characters."
+        "Finding": "Not implemented",
+        "Details": "The ChessUI class is defined but has no methods or logic to interact with the user, such as displaying the board or processing user input."
+      },
+      {
+        "Section": "systemArchitecture/chessEngine",
+        "Specification": "Implement standard chess rules, move generation, and move validation logic",
+        "Finding": "Not implemented",
+        "Details": "The 'initialize_board' method in the ChessEngine class is not implemented; it currently contains a 'pass' statement."
       }
-    ],    
+    ]
   }
 }
+

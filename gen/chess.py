@@ -1,65 +1,89 @@
-# Task 4: Implement memory-efficient board representation using 32-bit integers
-class ChessBoard:
+# Revised chess.py based on review findings and design specifications
+
+# Import necessary libraries
+from typing import List, Tuple
+
+# ASCII unicode characters for chess pieces
+CHESS_PIECES = {
+    'K': '\u2654', 'Q': '\u2655', 'R': '\u2656',
+    'B': '\u2657', 'N': '\u2658', 'P': '\u2659',
+    'k': '\u265A', 'q': '\u265B', 'r': '\u265C',
+    'b': '\u265D', 'n': '\u265E', 'p': '\u265F',
+    '.': ' '
+}
+
+# Mapping of pieces to 4-bit representation
+PIECE_TO_BITS = {
+    'K': 0b0001, 'Q': 0b0010, 'R': 0b0011,
+    'B': 0b0100, 'N': 0b0101, 'P': 0b0110,
+    'k': 0b0111, 'q': 0b1000, 'r': 0b1001,
+    'b': 0b1010, 'n': 0b1011, 'p': 0b1100,
+    '.': 0b0000
+}
+
+# Board representation using 32-bit integers for each row
+class Board:
     def __init__(self):
-        self.board = [0 for _ in range(8)]
+        self.rows = [0] * 8  # 8 rows, each row is a 32-bit integer
 
-    def set_piece(self, row, piece, position):
-        # Assuming piece is represented with 4 bits
-        self.board[row] |= (piece << (position * 4))
+    def set_piece(self, row: int, col: int, piece: str):
+        bit_rep = PIECE_TO_BITS[piece] << (col * 4)
+        self.rows[row] |= bit_rep
 
-    def get_piece(self, row, position):
-        # Extracting 4 bits representing the piece
-        return (self.board[row] >> (position * 4)) & 0xF
+    def get_piece(self, row: int, col: int) -> str:
+        bit_rep = (self.rows[row] >> (col * 4)) & 0b1111
+        return next(key for key, value in PIECE_TO_BITS.items() if value == bit_rep)
 
-# Task 5: Create a console-based user interface
+# Chess engine with move generation and validation logic
+class ChessEngine:
+    def __init__(self):
+        self.board = Board()
+        self.initialize_board()
+
+    def initialize_board(self):
+        # Initialize board with standard chess setup
+        pass  # Implementation of chess setup
+
+    def is_valid_move(self, move: str) -> bool:
+        # Implement move validation logic
+        pass  # Implementation of move validation
+
+    def generate_legal_moves(self) -> List[str]:
+        # Implement move generation logic
+        pass  # Implementation of move generation
+
+# User interface for the chess game
 class ChessUI:
-    def __init__(self, board):
-        self.board = board
-        self.piece_symbols = {
-            0: ' ',  # empty
-            # Add other pieces with their ASCII unicode representations
-            # Example: 1: '♙', 2: '♘', ...
-        }
+    def __init__(self, engine: ChessEngine):
+        self.engine = engine
 
     def display_board(self):
         for row in range(8):
             for col in range(8):
-                piece = self.board.get_piece(row, col)
-                print(self.piece_symbols[piece], end=" ")
+                piece = self.engine.board.get_piece(row, col)
+                print(CHESS_PIECES[piece], end=' ')
             print()
 
-    def parse_move(self, move_str):
-        # Parsing 'A2B3' format
-        col_from = ord(move_str[0].upper()) - ord('A')
-        row_from = 8 - int(move_str[1])
-        col_to = ord(move_str[2].upper()) - ord('A')
-        row_to = 8 - int(move_str[3])
-        return row_from, col_from, row_to, col_to
+    def get_player_move(self) -> str:
+        # Get and validate player move
+        move = input("Enter your move (e.g., 'A2B3'): ")
+        while not self.engine.is_valid_move(move):
+            print("Invalid move. Try again.")
+            move = input("Enter your move (e.g., 'A2B3'): ")
+        return move
 
-# Task 6: Write unit tests for chess engine
-import unittest
+    def play_game(self):
+        while True:
+            self.display_board()
+            move = self.get_player_move()
+            # Process the move
+            # Check for game end conditions
 
-class TestChessEngine(unittest.TestCase):
-    def setUp(self):
-        self.board = ChessBoard()
-        # Set up the board with initial positions
+# Main function to run the game
+def main():
+    engine = ChessEngine()
+    ui = ChessUI(engine)
+    ui.play_game()
 
-    def test_move_validation(self):
-        # Test standard chess rules and move validations
-        # Example: self.assertTrue(self.board.is_valid_move(1, 0, 2, 0)) # Pawn move
-        pass
-
-    def test_checkmate_detection(self):
-        # Test checkmate scenarios
-        pass
-
-    # Add more tests for different chess rules and scenarios
-
-# Example usage
 if __name__ == "__main__":
-    board = ChessBoard()
-    ui = ChessUI(board)
-    ui.display_board()
-
-    # Run tests
-    unittest.main()
+    main()
