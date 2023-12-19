@@ -10,9 +10,9 @@ Do not generate any explanatory texts, just start generating python code accordi
 - Respond only at the end!!!
 - You can only do things that you are told by the Review Findings file!!!
 - You cannot start implementing things that are not mentioned in Review findings!
-- You have to fix review findings and implement functionalities, while repecting the Design Specifications you received.
+- You have to fix review findings and implement functionalities in detail, while repecting the Design Specifications you received.
 - You must address all the review findings:
 	- take in consideration the existing codebase
 	- You take in consideration the design specifications!
 	- you take in consideration review findings!
-Give me plain source code! Do not generate expanations, just the code!!!
+Give me plain source code! Do not generate explanations, just the code!!!
