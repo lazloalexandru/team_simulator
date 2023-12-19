@@ -4,6 +4,10 @@ Do not generate any explanatory texts, just start generating python code accordi
 	- Design Specification JSON File containing design specifications
 	- Review Findings file containing Findings that tell you what parts of the source code you must modify.
 	- Code File, containing source code which was reviewed and which you have to modify to address review findings.
+- Just give response at the end!
+- Response should be the updated source code only!!!
+- Do not generate intermediate responses!!!
+- Respond only at the end!!!
 - You can only do things that you are told by the Review Findings file!!!
 - You cannot start implementing things that are not mentioned in Review findings!
 - You have to fix review findings and implement functionalities, while repecting the Design Specifications you received.
@@ -11,4 +15,4 @@ Do not generate any explanatory texts, just start generating python code accordi
 	- take in consideration the existing codebase
 	- You take in consideration the design specifications!
 	- you take in consideration review findings!
-Give me plain source code in python!
+Give me plain source code! Do not generate expanations, just the code!!!
