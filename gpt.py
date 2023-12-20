@@ -2,6 +2,7 @@ import openai
 import os
 import sys
 import tiktoken
+import json
 
 
 def token_count(some_text):

@@ -132,10 +132,7 @@ def implement_tasks(source_code_filepath, design_specs_filepath, developer_task)
         file.write(response["code"])
 
 
-def simulator():
-    generate_design_specs('requirements/chess_requirements.txt', 'gen/design_specification.json')
-    generate_developer_tasks('gen/design_specification.json', 'gen/developer_tasks.json')
-
+def development():
     with open('gen/developer_tasks.json', 'r') as json_file:
         developer_tasks = json.load(json_file)
 
@@ -144,6 +141,15 @@ def simulator():
         if task['category'] == "coding" and task['id'] == 6:
             print(f"\nTask -> {task['id']}. {task['description']}")
             implement_tasks('gen/chess.py', 'gen/design_specification.json', task['description'])
+
+        # add code review here ...
+
+
+def simulator():
+    generate_design_specs('requirements/chess_requirements.txt', 'gen/design_specification.json')
+    generate_developer_tasks('gen/design_specification.json', 'gen/developer_tasks.json')
+
+    development()
 
 
 simulator()
