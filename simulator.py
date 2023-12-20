@@ -107,13 +107,13 @@ def implement_tasks(source_code_filepath, design_specs_filepath, developer_task)
     with open(design_specs_filepath, 'r') as json_file:
         design_specs = json.load(json_file)
 
-    print("Design Specifications:\n", json.dumps(design_specs, indent=2))
+    # print("Design Specifications:\n", json.dumps(design_specs, indent=2))
 
     prompt = roles.read_roles_file(roles_filepath)
     print("system:\n", prompt["system"])
     print("\nuser:\n", prompt["user"])
 
-    user_prompt = "Source Code:" + source_code +\
+    user_prompt = f"Source Code from file {source_code_filepath}:" + source_code +\
                   "\nDesign Specification: " + json.dumps(design_specs) +\
                   "\nTask: " + developer_task +\
                   "\n" + prompt["user"]

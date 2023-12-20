@@ -1,147 +1,161 @@
-class Chessboard:
+import numpy as np
+
+# Constants for the bit representation of pieces
+EMPTY = 0b0000
+PAWN = 0b0001
+KNIGHT = 0b0010
+BISHOP = 0b0011
+ROOK = 0b0100
+QUEEN = 0b0101
+KING = 0b0110
+WHITE = 0b1000
+BLACK = 0b0000
+
+# Initialize the chessboard with 32-bit integers for each row
+class ChessBoard:
     def __init__(self):
-        self.rows = [0b00010001000100010001000100010001,
-                     0b00000000000000000000000000000000,
-                     0b00000000000000000000000000000000,
-                     0b00000000000000000000000000000000,
-                     0b00000000000000000000000000000000,
-                     0b00000000000000000000000000000000,
-                     0b00010001000100010001000100010001,
-                     0b00010001000100010001000100010001]
+        self.board = np.zeros((8,), dtype=np.uint32)
+        self.initialize_board()
 
-    def encode_piece(self, piece):
-        encoding = {
-            'K': 0b0001, # King
-            'Q': 0b0010, # Queen
-            'R': 0b0011, # Rook
-            'B': 0b0100, # Bishop
-            'N': 0b0101, # Knight
-            'P': 0b0110, # Pawn
-            '.': 0b0000, # Empty square
-        }
-        return encoding.get(piece, 0b0000)
+    def initialize_board(self):
+        # Setup white pieces
+        self.board[0] = (ROOK | WHITE) | ((KNIGHT | WHITE) << 4) | ((BISHOP | WHITE) << 8) | ((QUEEN | WHITE) << 12) | ((KING | WHITE) << 16) | ((BISHOP | WHITE) << 20) | ((KNIGHT | WHITE) << 24) | ((ROOK | WHITE) << 28)
+        self.board[1] = (PAWN | WHITE) * 0x11111111
 
-    def set_piece(self, row, col, piece):
-        encoded_piece = self.encode_piece(piece)
-        self.rows[row] &= ~(0b1111 << (col * 4)) # Clear the bits where the piece will go
-        self.rows[row] |= encoded_piece << (col * 4) # Set the piece bits
+        # Setup black pieces
+        self.board[6] = (PAWN | BLACK) * 0x11111111
+        self.board[7] = (ROOK | BLACK) | ((KNIGHT | BLACK) << 4) | ((BISHOP | BLACK) << 8) | ((QUEEN | BLACK) << 12) | ((KING | BLACK) << 16) | ((BISHOP | BLACK) << 20) | ((KNIGHT | BLACK) << 24) | ((ROOK | BLACK) << 28)
 
-    def get_piece(self, row, col):
-        piece_code = (self.rows[row] >> (col * 4)) & 0b1111
-        for piece, code in self.encode_piece('').items():
-            if code == piece_code:
-                return piece
-        return '.'
+    def get_piece_at_position(self, row, col):
+        # Extract the piece from the bitboard
+        shift = col * 4
+        piece = (self.board[row] >> shift) & 0b1111
+        return piece
+
+    def set_piece_at_position(self, row, col, piece):
+        # Set the piece on the bitboard
+        shift = col * 4
+        self.board[row] &= ~(0b1111 << shift)
+        self.board[row] |= piece << shift
 
     def __str__(self):
         board_str = ''
-        for row in self.rows:
+        for row in range(8):
             for col in range(8):
-                board_str += self.get_piece(row, col) + ' '
+                piece = self.get_piece_at_position(row, col)
+                board_str += f'{piece:04b} '
             board_str += '\n'
         return board_str
 
-def input_handler(prompt='Your move (e.g., A2 to B3): '):
-    while True:
-        user_input = input(prompt).strip()
-        if move_parser(user_input):
-            return user_input
-        else:
-            print('Invalid move format. Please try again.')
-
-def move_parser(command):
-    try:
-        start_pos, end_pos = command.lower().split(' to ')
-        start_col, start_row = ord(start_pos[0]) - ord('a'), int(start_pos[1]) - 1
-        end_col, end_row = ord(end_pos[0]) - ord('a'), int(end_pos[1]) - 1
-        if 0 <= start_col < 8 and 0 <= start_row < 8 and 0 <= end_col < 8 and 0 <= end_row < 8:
-            return start_row, start_col, end_row, end_col
-        else:
-            return None
-    except (ValueError, IndexError):
-        return None
-
-def display_manager(chessboard):
-    piece_symbols = {
-        'K': '\\u2654', # King
-        'Q': '\\u2655', # Queen
-        'R': '\\u2656', # Rook
-        'B': '\\u2657', # Bishop
-        'N': '\\u2658', # Knight
-        'P': '\\u2659', # Pawn
-        '.': ' '
-    }
-
-    board_str = '  a b c d e f g h\n'
-    for row_index, row in enumerate(chessboard.rows):
-        board_str += str(8 - row_index) + ' '
-        for col in range(8):
-            piece = chessboard.get_piece(7 - row_index, col)
-            board_str += piece_symbols[piece] + ' '
-        board_str += str(8 - row_index) + '\n'
-    board_str += '  a b c d e f g h\n'
-    return board_str
-
-
-class GameStateManager:
-    def __init__(self, chessboard):
-        self.chessboard = chessboard
-        self.current_turn = 'white'
+class GameState:
+    def __init__(self):
+        self.chessboard = ChessBoard()
+        self.current_turn = WHITE
         self.move_history = []
 
     def switch_turn(self):
-        self.current_turn = 'black' if self.current_turn == 'white' else 'white'
-
-    def make_move(self, start_row, start_col, end_row, end_col):
-        # TODO: Implement move validation based on chess rules
-        piece = self.chessboard.get_piece(start_row, start_col)
-        self.chessboard.set_piece(end_row, end_col, piece)
-        self.chessboard.set_piece(start_row, start_col, '.')
-        self.move_history.append((start_row, start_col, end_row, end_col))
-        self.switch_turn()
+        self.current_turn ^= 0b1000
 
     def is_valid_move(self, start_row, start_col, end_row, end_col):
-        # TODO: Implement detailed move validation
+        # Placeholder for move validation logic
+        # Needs to be implemented based on chess rules
         return True
 
+    def make_move(self, start_row, start_col, end_row, end_col):
+        if self.is_valid_move(start_row, start_col, end_row, end_col):
+            piece = self.chessboard.get_piece_at_position(start_row, start_col)
+            self.chessboard.set_piece_at_position(end_row, end_col, piece)
+            self.chessboard.set_piece_at_position(start_row, start_col, EMPTY)
+            self.move_history.append(((start_row, start_col), (end_row, end_col)))
+            self.switch_turn()
+
     def undo_move(self):
-        if not self.move_history:
-            return
-        last_move = self.move_history.pop()
-        self.chessboard.set_piece(last_move[2], last_move[3], '.')
-        self.chessboard.set_piece(last_move[0], last_move[1], self.chessboard.get_piece(last_move[2], last_move[3]))
-        self.switch_turn()
+        if self.move_history:
+            last_move = self.move_history.pop()
+            start_pos, end_pos = last_move
+            piece = self.chessboard.get_piece_at_position(end_pos[0], end_pos[1])
+            self.chessboard.set_piece_at_position(start_pos[0], start_pos[1], piece)
+            self.chessboard.set_piece_at_position(end_pos[0], end_pos[1], EMPTY)
+            self.switch_turn()
 
-# Example usage:
-# game_state_manager = GameStateManager(chessboard)
-# game_state_manager.make_move(1, 4, 3, 4) # Move pawn from E2 to E4
-# print(chessboard)
-# game_state_manager.undo_move()
+    def parse_move(self, move_str):
+        # Convert the move command from algebraic notation (e.g., 'A2 to B3') to board coordinates
+        try:
+            parts = move_str.split(' ')
+            start_pos = parts[0]
+            end_pos = parts[2]
+            start_col = ord(start_pos[0].upper()) - ord('A')
+            start_row = 8 - int(start_pos[1])
+            end_col = ord(end_pos[0].upper()) - ord('A')
+            end_row = 8 - int(end_pos[1])
+            return start_row, start_col, end_row, end_col
+        except Exception as e:
+            print(f'Error parsing move: {e}')
+            return None
 
-# Initialize the chessboard
-chessboard = Chessboard()
+    def input_handler(self):
+        move_str = input('Enter your move (e.g., A2 to A3): ').strip()
+        if not move_str:
+            print('No move entered. Please try again.')
+            return None
+        if len(move_str.split(' ')) != 3 or 'to' not in move_str:
+            print('Invalid move format. Please use the format: A2 to A3')
+            return None
+        return self.parse_move(move_str)
 
-# Set initial positions for pieces
-# This is just an example and should be replaced with actual game starting positions
-chessboard.set_piece(0, 0, 'R')
-chessboard.set_piece(0, 1, 'N')
-chessboard.set_piece(0, 2, 'B')
-chessboard.set_piece(0, 3, 'Q')
-chessboard.set_piece(0, 4, 'K')
-chessboard.set_piece(0, 5, 'B')
-chessboard.set_piece(0, 6, 'N')
-chessboard.set_piece(0, 7, 'R')
-for col in range(8):
-    chessboard.set_piece(1, col, 'P')
-    chessboard.set_piece(6, col, 'P')
-chessboard.set_piece(7, 0, 'R')
-chessboard.set_piece(7, 1, 'N')
-chessboard.set_piece(7, 2, 'B')
-chessboard.set_piece(7, 3, 'Q')
-chessboard.set_piece(7, 4, 'K')
-chessboard.set_piece(7, 5, 'B')
-chessboard.set_piece(7, 6, 'N')
-chessboard.set_piece(7, 7, 'R')
 
-# Print the chessboard
-print(chessboard)
+
+# Constants for the bit representation of pieces
+EMPTY = 0b0000
+PAWN = 0b0001
+KNIGHT = 0b0010
+BISHOP = 0b0011
+ROOK = 0b0100
+QUEEN = 0b0101
+KING = 0b0110
+WHITE = 0b1000
+BLACK = 0b0000
+
+# ASCII representations of the pieces
+PIECE_SYMBOLS = {
+    EMPTY: ' . ',
+    PAWN | WHITE: '\'p\'',
+    KNIGHT | WHITE: '\'n\'',
+    BISHOP | WHITE: '\'b\'',
+    ROOK | WHITE: '\'r\'',
+    QUEEN | WHITE: '\'q\'',
+    KING | WHITE: '\'k\'',
+    PAWN | BLACK: '\'P\'',
+    KNIGHT | BLACK: '\'N\'',
+    BISHOP | BLACK: '\'B\'',
+    ROOK | BLACK: '\'R\'',
+    QUEEN | BLACK: '\'Q\'',
+    KING | BLACK: '\'K\'',
+}
+
+# Initialize the chessboard with 32-bit integers for each row
+class ChessBoard:
+    # Existing ChessBoard methods...
+
+    def render(self):
+        board_str = '  A  B  C  D  E  F  G  H\n'
+        for row in range(8):
+            board_str += str(8 - row) + ' '
+            for col in range(8):
+                piece = self.get_piece_at_position(row, col)
+                board_str += PIECE_SYMBOLS[piece] + ' '
+            board_str += str(8 - row) + '\n'
+        board_str += '  A  B  C  D  E  F  G  H\n'
+        return board_str
+
+
+if __name__ == '__main__':
+    game_state = GameState()
+    print(game_state.chessboard.render())
+    while True:
+        parsed_move = game_state.input_handler()
+        if parsed_move:
+            game_state.make_move(*parsed_move)
+            print(game_state.chessboard.render())
+        else:
+            continue
