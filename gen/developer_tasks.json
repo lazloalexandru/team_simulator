@@ -1,74 +1,104 @@
 {
-    "steps": [
-        {
-            "id": 1,
-            "category": "setup dev",
-            "description": "Set up a Python development environment on Windows, including the installation of Python and any necessary IDEs or text editors."
-        },
-        {
-            "id": 2,
-            "category": "setup dev",
-            "description": "Initialize a new Git repository for version control and collaboration."
-        },
-        {
-            "id": 3,
-            "category": "coding",
-            "description": "Develop the core logic for chess rules and move validation as specified in the chess engine component of the system architecture."
-        },
-        {
-            "id": 4,
-            "category": "coding",
-            "description": "Implement the memory-efficient board representation using 32-bit integers to encode each row of the chess board."
-        },
-        {
-            "id": 5,
-            "category": "coding",
-            "description": "Create a console-based user interface using ASCII unicode characters for chess pieces and accepting 'A2B3' format for player moves."
-        },
-        {
-            "id": 6,
-            "category": "automatic testing",
-            "description": "Write unit tests for the chess engine to ensure all standard chess rules and move validations are correctly implemented."
-        },
-        {
-            "id": 7,
-            "category": "automatic testing",
-            "description": "Develop automated tests to verify the correct encoding and decoding of the chess board state using the 32-bit integer representation."
-        },
-        {
-            "id": 8,
-            "category": "automatic testing",
-            "description": "Implement automated tests for the user interface, ensuring accurate display of the game state and correct interpretation of user inputs."
-        },
-        {
-            "id": 9,
-            "category": "documentation",
-            "description": "Document the architecture and implementation details of the chess engine, including the rules and move validation logic."
-        },
-        {
-            "id": 10,
-            "category": "documentation",
-            "description": "Create comprehensive documentation for the board representation method, explaining the use of 32-bit integers."
-        },
-        {
-            "id": 11,
-            "category": "documentation",
-            "description": "Document the user interface design, detailing how players interact with the game and how the ASCII unicode characters are used."
-        },
-        {
-            "id": 12,
-            "category": "maintenance",
-            "description": "Regularly review and refactor the code for the chess engine to maintain readability and efficiency."
-        },
-        {
-            "id": 13,
-            "category": "maintenance",
-            "description": "Update and optimize the board representation as needed to ensure continued memory efficiency."
-        },
-        {
-            "id": 14,
-            "category": "maintenance",
-            "description": "Maintain the user interface, addressing any bugs or issues that arise during gameplay."
-        }
-    ]
+  "steps": [
+    {
+      "id": 1,
+      "category": "setup dev",
+      "description": "Initialize the project repository with version control using Git and setup the project structure according to the design specification."
+    },
+    {
+      "id": 2,
+      "category": "coding",
+      "description": "Implement the 32-bit integer chessboard representation using bit logic as specified in the design document."
+    },
+    {
+      "id": 3,
+      "category": "coding",
+      "description": "Create the game state management class to handle game states, moves, and rules."
+    },
+    {
+      "id": 4,
+      "category": "coding",
+      "description": "Develop the move parser function to translate text commands into game moves."
+    },
+    {
+      "id": 5,
+      "category": "coding",
+      "description": "Implement the input handler function to capture and validate user input."
+    },
+    {
+      "id": 6,
+      "category": "coding",
+      "description": "Implement the display manager function to render the chessboard and pieces using ASCII characters."
+    },
+    {
+      "id": 7,
+      "category": "automatic testing",
+      "description": "Write unit tests for the chessboard representation to ensure correct bit-level operations."
+    },
+    {
+      "id": 8,
+      "category": "automatic testing",
+      "description": "Write unit tests for the game state management class to validate game state transitions and rule enforcement."
+    },
+    {
+      "id": 9,
+      "category": "automatic testing",
+      "description": "Write unit tests for the move parser function to confirm correct interpretation of text commands."
+    },
+    {
+      "id": 10,
+      "category": "automatic testing",
+      "description": "Write unit tests for the input handler function to ensure proper input validation."
+    },
+    {
+      "id": 11,
+      "category": "automatic testing",
+      "description": "Write unit tests for the display manager function to verify accurate ASCII representation of the chessboard and pieces."
+    },
+    {
+      "id": 12,
+      "category": "maintenance",
+      "description": "Conduct code reviews and refactor code for readability, maintainability, and adherence to best practices."
+    },
+    {
+      "id": 13,
+      "category": "documentation",
+      "description": "Document the project setup, including dependencies and environment requirements."
+    },
+    {
+      "id": 14,
+      "category": "documentation",
+      "description": "Create inline documentation and code comments for the chessboard representation and encoding logic."
+    },
+    {
+      "id": 15,
+      "category": "documentation",
+      "description": "Document the game state management class, detailing the methods and their expected behaviors."
+    },
+    {
+      "id": 16,
+      "category": "documentation",
+      "description": "Document the move parser function, including expected inputs and outputs."
+    },
+    {
+      "id": 17,
+      "category": "documentation",
+      "description": "Document the input handler function, outlining the validation rules and accepted formats."
+    },
+    {
+      "id": 18,
+      "category": "documentation",
+      "description": "Document the display manager function, explaining the ASCII representation approach."
+    },
+    {
+      "id": 19,
+      "category": "maintenance",
+      "description": "Optimize memory usage by refining the chessboard encoding and ensuring efficient data structures are used throughout the codebase."
+    },
+    {
+      "id": 20,
+      "category": "coding",
+      "description": "Implement additional features for future enhancements as outlined in the design specification."
+    }
+  ]
 }
